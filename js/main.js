@@ -1,3 +1,1 @@
-import {listPhotos} from './create-data.js';
-
-console.log(listPhotos());
+import './create-photos.js';

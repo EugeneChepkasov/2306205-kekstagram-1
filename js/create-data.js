@@ -1,6 +1,7 @@
 import {getRandomInteger, getRandomNonRepetitiveNumber, getRandonArrayElement} from './util.js';
 
 const AMOUNT_PHOTOS = 25;
+const AMOUNT_COMMENTS = 5;
 
 const PHOTOS_COMMENTS = [
   'Всё отлично!',
@@ -31,17 +32,26 @@ const createMessage = () => Array.from({length: getRandomInteger(1, 2)}, () => g
 const createPhoto = () => {
   const getRandomId = getRandomNonRepetitiveNumber(1, AMOUNT_PHOTOS);
   const getIdPhoto = getRandomId();
-  return {
-    id: getIdPhoto,
-    avatar: `img/avatar-${getIdPhoto}.svg`,
+  const getIdAvatar = getRandomNonRepetitiveNumber(1, 6);
+  let commentsAmount = 1;
+
+  const createComment = () => ({
+    commentId: `${getIdPhoto}-${commentsAmount++}`,
+    avatar: `img/avatar-${getIdAvatar()}.svg`,
     message: createMessage(),
-    name: getRandonArrayElement(PHOTOS_AUTHORS),
+    name: getRandonArrayElement(PHOTOS_AUTHORS)
+  });
+
+  return {
+    photoId: getIdPhoto,
+    url: `photos/${getIdPhoto}.jpg`,
     description: getRandonArrayElement(PHOTOS_DESCRIPTIONS),
-    likes: getRandomInteger(15, 200)
+    likes: getRandomInteger(15, 200),
+    comments: Array.from({length: getRandomInteger(0, AMOUNT_COMMENTS)}, createComment)
   };
 };
 
 
-const listPhotos = () => Array.from({length: AMOUNT_PHOTOS}, createPhoto);
+const photosList = () => Array.from({length: AMOUNT_PHOTOS}, createPhoto);
 
-export {listPhotos};
+export {photosList};
